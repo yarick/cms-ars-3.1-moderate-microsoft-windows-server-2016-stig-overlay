@@ -1,0 +1,14 @@
+name: cms-ars3.1-moderate-microsoft-windows-server-2016-stig-overlay
+title: cms-ars3.1-moderate-microsoft-windows-server-2016-stig-overlay
+maintainer: CMS InSpec Dev Team
+copyright: (c) 2019 The MITRE Corporation
+copyright_email: inspec@mitre.org
+license: Apache-2.0
+summary: "CMS ARS3.1 Overlay against the Windows Server 2016 DISA STIG InSpec Profile"
+version: 0.1.0
+
+depends:
+- name: microsoft-windows-server-2016-stig-baseline
+  path: ../microsoft-windows-server-2016-stig-baseline
+
+inputs:
