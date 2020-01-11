@@ -1,4 +1,45 @@
 include_controls 'microsoft-windows-server-2016-stig-baseline' do
+  control 'V-73231' do
+    title 'Manually managed application account passwords must be changed at
+    least every 60 days and when a system administrator with knowledge of the password
+    leaves the organization.'
+    desc 'check', 'Determine if manually managed application/service accounts exist.
+    If none exist, this is NA.
+    
+    If passwords for manually managed application/service accounts are not changed
+    at least every 60 days and when an administrator with knowledge of the password
+    leaves the organization, this is a finding.
+    
+    Identify manually managed application/service accounts.
+    
+    To determine the date a password was last changed:
+    
+    Domain controllers:
+    
+    Open "PowerShell".
+    
+    Enter "Get-AdUser -Identity [application account name] -Properties
+    PasswordLastSet | FT Name, PasswordLastSet", where [application account name]
+    is the name of the manually managed application/service account.
+    
+    If the "PasswordLastSet" date is more than 60 days old, this is a finding.
+    
+    Member servers and standalone systems:
+    
+    Open "Command Prompt".
+    
+    Enter \'Net User [application account name] | Find /i "Password Last Set"\',
+    where [application account name] is the name of the manually managed
+    application/service account.
+    
+    If the "Password Last Set" date is more than one year old, this is a finding.'
+    desc 'fix', 'Change passwords for manually managed application/service accounts
+    at least every 60 days and when an administrator with knowledge of the password
+    leaves the organization.
+    
+    It is recommended that system-managed service accounts be used whenever
+    possible.'
+  end
   control 'V-73235' do
     impact 0
     desc 'caveat', 'Not applicable for this CMS ARS 3.1 overlay, since the related security control is not mandatory in CMS ARS 3.1'
@@ -72,15 +113,14 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     desc 'caveat', 'Not applicable for this CMS ARS 3.1 overlay, since the related security control is not mandatory in CMS ARS 3.1'
   end
   control 'V-73281' do
-    desc "check", "Verify CMS approved HBSS software is installed, configured, and
-    properly operating. Ask the operator to document the HBSS software installation
-    and configuration.
-    
-    If the operator is not able to provide a documented configuration for an
-    installed HBSS or if the HBSS software is not properly configured, maintained,
-    or used, this is a finding."
-    desc "fix", "Install a CMS approved HBSS software and ensure it is operating
-    continuously."
+    title 'Windows Server 2016 must employ automated mechanisms to determine the
+    state of system components with regard to flaw remediation no less often than once every seventy-two (72) hours.'
+    desc 'Without the use of automated mechanisms to scan for security flaws on
+    a continuous and/or periodic basis, the operating system or other system
+    components may remain vulnerable to the exploits presented by undetected
+    software flaws.'
+    desc "check", "Verify the operating system employs automated mechanisms to determine the state of system components with regard to flaw remediation no less often than once every seventy-two (72) hours. If it does not, this is a finding."
+    desc "fix", "Configure the operating system to employ automated mechanisms to determine the state of system components with regard to flaw remediation no less often than once every seventy-two (72) hours."
   end
   control 'V-73283' do
     title "Windows Server 2016 must automatically remove or disable temporary
@@ -153,7 +193,7 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     
     Open \"PowerShell\".
     
-    Enter \"Search-ADAccount ‚ÄìAccountExpiring | FT Name, AccountExpirationDate\".
+    Enter \"Search-ADAccount ‚AccountExpiring | FT Name, AccountExpirationDate\".
     
     If \"AccountExpirationDate\" has been defined and is not within 24 hours for an
     emergency administrator account, this is a finding.
@@ -165,7 +205,7 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     Run \"Net user [username]\", where [username] is the name of the emergency
     account.
     
-    If \"Account expires\" has been defined and is not within 72 hours for an
+    If \"Account expires\" has been defined and is not within 24 hours for an
     emergency administrator account, this is a finding."
     desc "fix", "Remove emergency administrator accounts after a crisis has been
     resolved or configure the accounts to automatically expire within 24 hours.
@@ -179,30 +219,35 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
   end
   control 'V-73307' do
     title "The time service must synchronize with an appropriate CMS time source."
-    desc "check", "Review the Windows time service configuration.
+    desc "check", 'Review the Windows time service configuration.
 
-    Open an elevated \"Command Prompt\" (run as administrator).
+    Open an elevated "Command Prompt" (run as administrator).
     
-    Enter \"W32tm /query /configuration\".
+    Enter "W32tm /query /configuration".
     
     Domain-joined systems (excluding the domain controller with the PDC emulator
     role):
     
-    If the value for \"Type\" under \"NTP Client\" is not \"NT5DS\", this is a
+    If the value for "Type" under "NTP Client" is not "NT5DS", this is a
     finding.
     
     Other systems:
     
-    If systems are configured with a \"Type\" of \"NTP\", including standalone
+    If systems are configured with a "Type" of "NTP", including standalone
     systems and the domain controller with the PDC Emulator role, and do not have a
-    CMS time server defined for \"NTPServer\", this is a finding.
+    CMS time server defined for "NTPServer", this is a finding.
+    
+    CMS-approved time servers include:
+    - NIST Internet Time Servers (http://tf.nist.gov/tf-cgi/servers.cgi)
+    - U.S. Naval Observatory Stratum-1 NTP Servers (http://tycho.usno.navy.mil/ntp.html); and
+    - CMS designated internal NTP time servers providing an NTP Stratum-2 service to the above servers
     
     To determine the domain controller with the PDC Emulator role:
     
-    Open \"PowerShell\".
+    Open "PowerShell".
     
-    Enter \"Get-ADDomain | FT PDCEmulator\"."
-    desc "fix", "Configure the system to synchronize time with an appropriate CMS
+    Enter "Get-ADDomain | FT PDCEmulator".'
+    desc "fix", 'Configure the system to synchronize time with an appropriate CMS
     time source.
     
     Domain-joined systems use NT5DS to synchronize time from other systems in the
@@ -211,13 +256,17 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     If the system needs to be configured to an NTP server, configure the system to
     point to an authorized time server by setting the policy value for Computer
     Configuration >> Administrative Templates >> System >> Windows Time Service >>
-    Time Providers >> \"Configure Windows NTP Client\" to \"Enabled\", and
-    configure the \"NtpServer\" field to point to an appropriate CMS time server.
+    Time Providers >> "Configure Windows NTP Client" to "Enabled", and
+    configure the "NtpServer" field to point to an appropriate CMS time server.
     
-    The US Naval Observatory operates stratum 1 time servers, identified at
-    http://tycho.usno.navy.mil/ntp.html. Time synchronization will occur through a
+    CMS-approved time servers include:
+    - NIST Internet Time Servers (http://tf.nist.gov/tf-cgi/servers.cgi)
+    - U.S. Naval Observatory Stratum-1 NTP Servers (http://tycho.usno.navy.mil/ntp.html); and
+    - CMS designated internal NTP time servers providing an NTP Stratum-2 service to the above servers
+    
+    Time synchronization will occur through a
     hierarchy of time servers down to the local level. Clients and lower-level
-    servers will synchronize with an authorized time server in the hierarchy."
+    servers will synchronize with an authorized time server in the hierarchy.'
   end
   control 'V-73309' do
     title "Windows 2016 account lockout duration must be configured to 60 minutes or greater."
@@ -429,6 +478,49 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     impact 0
     desc 'caveat', 'Not applicable for this CMS ARS 3.1 overlay, since the related security control is not included in CMS ARS 3.1'
   end
+  control 'V-73605' do
+    title "The CMS Root CA certificates must be installed in the Trusted Root
+    Store."
+    desc "To ensure secure CMS websites and CMS-signed code are properly
+    validated, the system must trust the CMS Root Certificate Authorities (CAs).
+    The CMS root certificates will ensure that the trust chain is established for
+    server certificates issued from the CMS CAs."
+    desc 'check', "Verify the CMS Root CA certificates are installed in the Trusted Root
+    Store."
+    desc 'fix', "Install the CMS Root CA certificates."
+    describe "For this CMS ARS 3.1 overlay, this control must be reviewed manually" do 
+      skip "For this CMS ARS 3.1 overlay, this control must be reviewed manually"
+    end
+  end
+  control 'V-73607' do
+    title "The CMS Interoperability Root CA cross-certificates must be installed
+    in the Untrusted Certificates Store on unclassified systems."
+    desc "To ensure users do not experience denial of service when performing
+    certificate-based authentication to CMS websites due to the system chaining to
+    a root other than CMS Root CAs, the CMS Interoperability Root CA
+    cross-certificates must be installed in the Untrusted Certificate Store. This
+    requirement only applies to unclassified systems."
+    desc "check", "Verify the CMS Interoperability cross-certificates are installed
+    on unclassified systems as Untrusted Certificates."
+    desc "fix", "Install the CMS Interoperability Root CA cross-certificates on
+    unclassified systems."
+    describe "For this CMS ARS 3.1 overlay, this control must be reviewed manually" do 
+      skip "For this CMS ARS 3.1 overlay, this control must be reviewed manually"
+    end
+  end
+  control 'V-73609' do
+    impact 0
+    desc "caveat", "Not applicable for this CMS ARS 3.1 overlay, since the CCEB is not applicable to CMS"
+  end
+  control 'V-73613' do
+    title 'Domain Controller PKI certificates must be issued by the CMS PKI or an
+    approved External Certificate Authority (ECA).'
+    desc 'fix', "Obtain a server certificate for the domain controller issued by the
+    CMS PKI or an approved ECA."
+    describe "For this CMS ARS 3.1 overlay, this control must be reviewed manually" do 
+      skip "For this CMS ARS 3.1 overlay, this control must be reviewed manually"
+    end
+  end
   control 'V-73615' do
     title "PKI certificates associated with user accounts must be issued by the
     CMS PKI or an approved External Certificate Authority (ECA)."
@@ -437,6 +529,28 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     impact 0
     desc 'caveat', 'Not applicable for this CMS ARS 3.1 overlay, since the related security control is not included in CMS ARS 3.1'
   end
+  control 'V-73641' do
+    title 'The maximum age for machine account passwords must be configured to 60
+    days or less.'
+    desc 'Computer account passwords are changed automatically on a regular
+    basis. This setting controls the maximum password age that a machine account
+    may have. This must be set to no more than 60 days, ensuring the machine
+    changes its password bi-monthly.'
+    desc 'check', 'If the following registry value does not exist or is not configured as
+    specified, this is a finding.
+    
+    Registry Hive: HKEY_LOCAL_MACHINE
+    Registry Path: \SYSTEM\CurrentControlSet\Services\Netlogon\Parameters\
+    
+    Value Name: MaximumPasswordAge
+    
+    Value Type: REG_DWORD
+    Value: 0x0000001e (60) (or less, but not 0)'
+    desc 'fix', 'Configure the policy value for Computer Configuration >> Windows Settings >>
+    Security Settings >> Local Policies >> Security Options >> "Domain member:
+    Maximum machine account password age" to "60" or less (excluding "0",
+    which is unacceptable).'
+  end 
   control 'V-73647' do
     desc "check", "If the following registry value does not exist or is not
     configured as specified, this is a finding.
