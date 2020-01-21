@@ -467,12 +467,12 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     desc 'caveat', 'Not applicable for this CMS ARS 3.1 overlay, since the related security control is not included in CMS ARS 3.1'
   end
   control 'V-73595' do
-    impact 0
-    desc 'caveat', 'Not applicable for this CMS ARS 3.1 overlay, since the related security control is not mandatory in CMS ARS 3.1'
+    tag "cci": ["CCI-000068", "CCI-002890", "CCI-003123"]
+    tag "nist": ["AC-17 (2)", "MA-4 (6)", "MA-4 (6)", "Rev_4"]
   end
   control 'V-73601' do
-    impact 0
-    desc 'caveat', 'Not applicable for this CMS ARS 3.1 overlay, since the related security control is not mandatory in CMS ARS 3.1'
+    tag "cci": ["CCI-000068", "CCI-002890", "CCI-003123"]
+    tag "nist": ["AC-17 (2)", "MA-4 (6)", "MA-4 (6)", "Rev_4"]
   end
   control 'V-73603' do
     impact 0
@@ -513,7 +513,6 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     desc "caveat", "Not applicable for this CMS ARS 3.1 overlay, since the CCEB is not applicable to CMS"
   end
   control 'V-73613' do
-    impact 0
     title 'Domain Controller PKI certificates must be issued by the CMS PKI or an
     approved External Certificate Authority (ECA).'
     desc 'check', 'This applies to domain controllers. It is NA for other systems.
@@ -542,23 +541,7 @@ include_controls 'microsoft-windows-server-2016-stig-baseline' do
     
     If the "Issued By" field of the PKI certificate being used by the domain
     controller does not indicate the issuing CA is part of the CMS PKI or an
-    approved ECA, this is a finding.
-    
-    If the certificates in use are issued by a CA authorized by the Component\'s
-    CIO, this is a CAT II finding.
-    
-    There are multiple sources from which lists of valid CMS CAs and approved ECAs
-    can be obtained:
-    
-    The Global Directory Service (GDS) website provides an online source. The
-    address for this site is https://crl.gds.disa.mil.
-    
-    CMS Public Key Enablement (PKE) Engineering Support maintains the InstallRoot
-    utility to manage CMS supported root certificates on Windows computers, which
-    includes a list of authorized CAs. The utility package can be downloaded from
-    the PKI and PKE Tools page on IASE:
-    
-    http://iase.disa.mil/pki-pke/function_pages/tools.html'
+    approved ECA, this is a finding.'
     desc 'fix', 'Obtain a server certificate for the domain controller issued by the
     CMS PKI or an approved ECA.'
     desc 'caveat', 'Not applicable for this CMS ARS 3.1 overlay, since the related security control is not applied to this system categorization in CMS ARS 3.1'
