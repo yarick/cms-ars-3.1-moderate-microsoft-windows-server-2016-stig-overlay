@@ -1,4 +1,4 @@
-# (WIP) cms-ars-3.1-moderate-microsoft-windows-server-2016-stig-overlay
+# cms-ars-3.1-moderate-microsoft-windows-server-2016-stig-overlay
 InSpec profile overlay to validate the secure configuration of Microsoft Windows Server 2016 against [DISA's](https://iase.disa.mil/stigs/Pages/index.aspx) Microsoft Windows Server 2016 STIG tailored for [CMS ARS 3.1](https://www.cms.gov/Research-Statistics-Data-and-Systems/CMS-Information-Technology/InformationSecurity/Info-Security-Library-Items/ARS-31-Publication.html) for CMS systems categorized as Moderate.
 
 ## Getting Started  
