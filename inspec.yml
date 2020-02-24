@@ -1,10 +1,10 @@
 name: cms-ars3.1-moderate-microsoft-windows-server-2016-stig-overlay
 title: cms-ars3.1-moderate-microsoft-windows-server-2016-stig-overlay
 maintainer: CMS InSpec Dev Team
-copyright: (c) 2019 The MITRE Corporation
-copyright_email: inspec@mitre.org
+copyright: .
+copyright_email: .
 license: Apache-2.0
-summary: "CMS ARS3.1 Overlay against the Windows Server 2016 DISA STIG InSpec Profile"
+summary: .
 version: 0.1.0
 
 depends:
@@ -12,3 +12,107 @@ depends:
   path: ../microsoft-windows-server-2016-stig-baseline
 
 inputs:
+  - name: backup_operators
+    description: 'List of authorized users in the Backup Operators Group'
+    type: Array
+    value: []
+
+  - name: administrators
+    description: 'List of authorized users in the local Administrators group'
+    type: Array
+    value: ["Administrator",
+            "Domain Admins",
+            "Enterprise Admins"]
+
+  - name: administrators_domain
+    description: 'List of authorized users in the local Administrators domain group'
+    type: Array
+    value: ["Administrator",
+            "Domain Admins",
+            "Enterprise Admins"]
+
+  - name: temp_account
+    description: 'List of temporary accounts on the system'
+    type: Array
+    value: ["tempuser"]
+
+  - name: emergency_account
+    description: 'List of emergency accounts on the system'
+    type: Array
+    value: []
+
+  - name: administrator_domain_group
+    description: 'List of authorized users in the local Administrators domain group'
+    type: Array
+    value: ["Administrator"]
+
+  - name: shared_accounts
+    description: 'List of shared accounts on the system'
+    type: Array
+    value: []
+
+  - name: has_ftp_server_role
+    description: 'Set to true server has the ftp server role'
+    type: Boolean
+    value: true
+
+  - name: forrest
+    description: 'Domain Controller forrest name'
+    type: String
+    value: 'dc=testdomain, dc=com'
+
+  - name: admin_account
+    description: 'Default administator account'
+    type: String
+    value: 'Administrator'
+
+  - name: is_AD_only_system
+    description: 'Set to true if the system is dedicated to the management of Active Directory'
+    type: Boolean
+    value: false
+
+  - name: legal_notice_text
+    description: 'Standard Legal Notice Text shown to the user on login'
+    type: String
+    value: "* This warning banner provides privacy and security notices consistent with applicable federal laws, directives, and other federal guidance for accessing this Government system, which includes (1) this computer network, (2) all computers connected to this network, and (3) all devices and storage media attached to this network or to a computer on this network.
+              *     This system is provided for Government-authorized use only.
+              *     Unauthorized or improper use of this system is prohibited and may result in disciplinary action and/or civil and criminal penalties.
+              *     Personal use of social media and networking sites on this system is limited as to not interfere with official work duties and is subject to monitoring.
+              *     By using this system, you understand and consent to the following:
+              -     The Government may monitor, record, and audit your system usage, including usage of personal devices and email systems for official duties or to conduct HHS business. Therefore, you have no reasonable expectation of privacy regarding any communication or data transiting or stored on this system. At any time, and for any lawful Government purpose, the government may monitor, intercept, and search and seize any communication or data transiting or stored on this system.
+              -     Any communication or data transiting or stored on this system may be disclosed or used for any lawful Government purpose."
+
+  - name: legal_notice_caption
+    description: 'Standard Legal Notice Caption to go along with the Standard Legal Notice Text'
+    type: String
+    value: "-= WARNING =- -= WARNING =- -= WARNING =-"
+    
+  - name: max_conn_idle_time
+    description: 'Maximum connectivity time to directory server in seconds'
+    type: Numeric
+    value: 300
+
+  - name: is_unclassified_system
+    description: 'Set flag to true if the target system is unclassified'
+    type: Boolean
+    value: true
+
+  - name: dod_certificates
+    description: 'List of DoD Interoperability Root Certificates'
+    type: Array
+    value: []
+    
+  - name: dod_cceb_certificates
+    description: 'List of DoD Interoperability Root Certificates'
+    type: Array
+    value: []
+    
+  - name: built_in_admin_account
+    description: 'Default account name for Built-In Administrator'
+    type: String
+    value: "Administrator"
+
+  - name: manually_managed_app_service_accounts
+    description: 'A list of all manually managed Application and Service account names'
+    type: Array
+    value: []
